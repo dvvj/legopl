@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"os"
+	"strconv"
 )
 
 func addComma(s string) string {
@@ -29,6 +30,7 @@ func addComma(s string) string {
 
 func main() {
 	for _, s := range os.Args[1:] {
-		fmt.Println(addComma(s))
+		v, _ := strconv.Atoi(s)
+		fmt.Printf("arg: %s, v: %d, %s\n", s, v, addComma(s))
 	}
 }
