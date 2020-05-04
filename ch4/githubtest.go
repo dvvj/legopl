@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"legopl/ch4/github"
+	"legopl/ch4/templates"
 	"log"
 	"os"
 	"text/template"
@@ -36,7 +37,17 @@ func daysAgo(t time.Time) int {
 	return int(time.Since(t).Hours() / 24)
 }
 
-func main() {
+func testTemplate2() {
+	tc1 := templates.TestCase{
+		RawInput: "raw",
+		Titles:   []string{"title1"},
+		RemInput: "rem",
+		Suffixes: []string{"suf1"},
+		IsName:   true}
+	templates.Output(&tc1)
+}
+
+func testGithub() {
 
 	// report, err := template.New("report").
 	// 	Funcs(template.FuncMap{"daysAgo": daysAgo}).
@@ -67,4 +78,9 @@ func main() {
 	if err := report.Execute(os.Stdout, result); err != nil {
 		log.Fatal(err)
 	}
+}
+
+func main() {
+	testTemplate2()
+	//testGithub()
 }
