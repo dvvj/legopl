@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"sort"
 	"strings"
 )
 
@@ -28,6 +29,50 @@ func testStringsMap() {
 }
 
 func main() {
-	test1()
-	testStringsMap()
+	// test1()
+	// testStringsMap()
+
+	testTopoSort()
+}
+
+const Intro = "intro"
+const Algorithm = "algo"
+const DataStructure = "data structure"
+
+func testTopoSort() {
+	var prereqs = map[string][]string{
+		DataStructure: {Intro},
+		Algorithm:     {DataStructure},
+	}
+
+	orders := topoSort(prereqs)
+	for i, item := range orders {
+		fmt.Printf("%d:\t%s\n", i+1, item)
+	}
+}
+
+func topoSort(prereq map[string][]string) []string {
+	var order []string
+	seen := make(map[string]bool)
+
+	var visitAll func(items []string)
+
+	visitAll = func(items []string) {
+		for _, item := range items {
+			if !seen[item] {
+				seen[item] = true
+				visitAll(prereq[item])
+				order = append(order, item)
+			}
+		}
+	}
+
+	var keys []string
+	for key := range prereq {
+		keys = append(keys, key)
+	}
+
+	sort.Strings(keys)
+	visitAll(keys)
+	return order
 }
